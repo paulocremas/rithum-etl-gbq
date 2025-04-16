@@ -1,33 +1,40 @@
-# First meeting project scopping
+### First meeting project scopping
 
-### Necessary resources
-* API Key or Token
+## Necessary resources
+* Rithum API Access (Key or Token)
   - Required to connect to the data source; nothing can be done without it.
-  - Ideally, it should be created using an account with read-only permissions.
-  - At the start, I'll need only one, but multiple store keys will be required later.
+  - Ideally, the access should be provided from an account with read-only permissions.
+
+#### I can create both of the following items and later transfer ownership to you
+If you'd prefer to do it yourself, I can send you tutorials for both options. No worries if you can't grant me access right away — I can already get started with just the API access.
+
+* Google BigQuery Access
+  - Editor Access to BigQuery Project
+    - Required to create databases.
+    - Only needed after data extraction is possible.
+  - Google BigQuery Service Account
+    - Required to authenticate the script to access and modify the database.
+    - Only needed after the database has been created.
  
-* Editor Access to BigQuery Project
-  - Required to create databases.
-  - Only needed after data extraction is possible.
- 
-* Google BigQuery Service Account
-  - Required to authenticate the script to access and modify the database.
-  - Only needed after the database has been created.
- 
-* Editor Access to AWS Lambda
+* AWS Lambda Access
   - Required to host the script and schedule it to run automatically.
   - Last resource needed to be delivered.
  
 
+## Questions
+
+### API Conection
+1. Do you manage data for all stores through a centralized platform, or is there an individual back office for each store?
+2. Do you know where we can find the API Key or Token? (It might be available in the back office.)
+3. I found online that Rithum offers two types of APIs: SOAP (legacy) and REST (v3). Do you know which one we'll be working with — or will we use both? (You might be able to check this in the back office.)
 
 ### Extraction
+4. How many stores will we be extracting data from?
+5. Do you know the average number of orders you receive daily?
+6. Which metrics would you like to visualize?
+7. Besides sales volume, revenue and supplier name, do you already know which specific data you’d like to extract? Or should we pull all available data from orders?
 
-#### Questions
-1. How many stores do we need to extract data from?
-2. Do you know where to find the API Key? (possibly on backoffice)
-3. I found on internet that there's 2 types of API for Rithum: API SOAP (legacy) and API REST (v3). Which one will we work with? Both? (You can possibly check this on backoffice)
-4. Which metrics do you want to visualize?
-5. Do you already know which data you wanto to extract? Should we extract all data we can from orders? This is the information we can extract from a single API call. (REST API v3)
+This is the information we can extract from a single API call. (REST API v3)
 ```json
    {
      "scrollId": "string",
@@ -558,12 +565,3 @@
      ]
    }
    ```
-   
-#### Requirements
-3.
-4. For API REST (v3) I need at least 1 access token. Preferably of a read only account.
-5. 
-
-### Load
-
-### Dashboad
