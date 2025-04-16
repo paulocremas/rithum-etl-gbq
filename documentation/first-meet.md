@@ -1,5 +1,25 @@
 # First meeting project scopping
 
+### Necessary resources
+* API Key or Token
+  - Required to connect to the data source; nothing can be done without it.
+  - Ideally, it should be created using an account with read-only permissions.
+  - At the start, I'll need only one, but multiple store keys will be required later.
+ 
+* Editor Access to BigQuery Project
+  - Required to create databases.
+  - Only needed after data extraction is possible.
+ 
+* Google BigQuery Service Account
+  - Required to authenticate the script to access and modify the database.
+  - Only needed after the database has been created.
+ 
+* Editor Access to AWS Lambda
+  - Required to host the script and schedule it to run automatically.
+  - Last resource needed to be delivered.
+ 
+
+
 ### Extraction
 
 #### Questions
