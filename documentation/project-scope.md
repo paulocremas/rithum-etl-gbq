@@ -67,7 +67,7 @@ I estimate 2 hours to develop the notifier, integrate it with error handling, an
 <a id="deploy"></a>
 #### 5. Project Deployment (Total 8 hours)
 
-| **Estimated Time (Hours)** | **Task**                          | **Description**                                                                 |
+| **Estimated Time (in hours)** | **Task**                          | **Description**                                                                 |
 |---------------------------|------------------------------------|---------------------------------------------------------------------------|
 | 0.5                    | AWS Account Setup           | Configure IAM roles, permissions, and enable Lambda service.              |
 | 1.5                     | Lambda Function Creation    | Package Python script with dependencies (`requests`, `google-cloud-bigquery`). |
