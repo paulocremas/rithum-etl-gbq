@@ -10,11 +10,11 @@ Following our meeting and understanding of the project requirements, I’ve brok
 | Task | Total hours |
 |----|---|
 |1. [API Integration](#api-integration) | 18 |
-|2. [Google BigQuery Integration](#gbq) | 7,5 |
+|2. [Google BigQuery Integration](#gbq) | 7.5 |
 |3. [Dashboard Development](#dashboard) | 3 |
 |4. [E-mail Notificator (for errors and performance reports)](#email) | 2 |
 |5. [Project Deployment](#deploy) | 8 |
-|6. [Documentation](#doc) | 4,5 |
+|6. [Documentation](#doc) | 4.5 |
 | Total | 43 |
 
 #### Observation
@@ -35,16 +35,16 @@ If confirmed, the script will need logic to identify and exclude canceled items,
 ---------------------------|--------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
  3                         | Review API Documentation                                           | Understanding authentication, order endpoints, parameters, response format.                                                                                                       
  1                         | Environment Setup                                                  | Set up the project, install libraries (requests, [Postman](https://www.postman.com/) for testing).                                                                                                            
- 2,5                       | Authentication Implementation                                      | Implement the flow using a refresh token to get an access token, handle token expiration, errors, etc.                                                                            
+ 2.5                       | Authentication Implementation                                      | Implement the flow using a refresh token to get an access token, handle token expiration, errors, etc.                                                                            
  3                         | API Call to Orders Endpoint                                        | Build the request with proper headers, query parameters, date/status filters, etc.                                                                                                
  1                         | Pagination Handling                                                | Handle pagination using `scrollId`. On the first request, Rithum returns a `scrollId` and the first page of results. Use this ID in subsequent calls to retrieve remaining pages. 
- 2,5                       | Parsing the Response, Extracting Data and Creating Metadata Fields | Implementing the logic to parse the response format and extract the relevant order fields.                                                                                        
+ 2.5                       | Parsing the Response, Extracting Data and Creating Metadata Fields | Implementing the logic to parse the response format and extract the relevant order fields.                                                                                        
  3                         | Testing & Validation                                               | Ensure extracted data is accurate and complete.                                                                                                                                   
  1                         | Error Handling                                                     | Handle authentication errors, API limits, malformed data, etc.                                                                                                                    
  1                         | Code Documentation                                                 | Add comments and document key workflows.                                                                                                                                          
 
 <a id="gbq"></a>
-#### 2. Google BigQuery Integration  (Total 7,5 hours)
+#### 2. Google BigQuery Integration  (Total 7.5 hours)
 
 | Estimated Time (in hours)  | Task                           | Description                                                                                      |
 |-----------------|--------------------------------|--------------------------------------------------------------------------------------------------|
@@ -81,5 +81,5 @@ I estimate 2 hours to develop the notifier, integrate it with error handling, an
 - **Secrets Manager**: ~$0.40/month per secret. (2 secrets estimated)
 
 <a id="doc"></a>
-#### 6. Documentation (Total 4,5 hours)
+#### 6. Documentation (Total 4.5 hours)
 I estimate it will take 4.5 hours to document the script and its supporting infrastructure. (AWS Lambda and Google BigQuery) 
