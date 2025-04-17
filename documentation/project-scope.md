@@ -43,6 +43,8 @@ If confirmed, the script will need logic to identify and exclude canceled items,
  1                         | Error Handling                                                     | Handle authentication errors, API limits, malformed data, etc.                                                                                                                    
  1                         | Code Documentation                                                 | Add comments and document key workflows.                                                                                                                                          
 
+---
+
 <a id="gbq"></a>
 #### 2. Google BigQuery Integration  (Total 7.5 hours)
 
@@ -56,13 +58,23 @@ If confirmed, the script will need logic to identify and exclude canceled items,
 | 1     | Read & Update Metadata in Script   | Implement logic to read metadata before extracting data  |
 | 0.5   | Validation  | Verify data consistency and run test queries                                                       |
 
+#### **Key Cost Drivers**
+- **Active Storage**: $0.02 per GB per month (first 10 GB free).
+- **Query Costs**: $5 per TB of data processed (first 1 TB/month free).
+
+---
+  
 <a id="dashboard"></a>
 #### 3. Dashboard Development (Total 3 hours)
 For the dashboard development, I estimate 3 hours to connect Looker to Google BigQuery, create the visualizations, implement interactive filters, and refine the overall layout and design.
 
+---
+
 <a id="email"></a>
 #### 4. E-mail Notificator (Total 2 hours)
 I estimate 2 hours to develop the notifier, integrate it with error handling, and implement logic to track performance metrics. 
+
+---
 
 <a id="deploy"></a>
 #### 5. Project Deployment (Total 8 hours)
@@ -79,6 +91,8 @@ I estimate 2 hours to develop the notifier, integrate it with error handling, an
 - **Lambda Pricing**: ~$0.20/month (1M requests, 1GB memory).  
 - **EventBridge**: ~$1/month (1M events).  
 - **Secrets Manager**: ~$0.40/month per secret. (2 secrets estimated)
+
+---
 
 <a id="doc"></a>
 #### 6. Documentation (Total 4.5 hours)
