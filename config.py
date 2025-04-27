@@ -12,6 +12,9 @@ class Endpoints:
     def __init__(self):
         self.TOKEN_ENDPOINT = "https://api.channeladvisor.com/oauth2/token"
         self.ORDERS_ENDPOINT = "https://api.channeladvisor.com/v1/Orders"
+        self.DISTRIBUTION_CENTERS_ENDPOINT = (
+            "https://api.channeladvisor.com/v1/DistributionCenters"
+        )
 
 
 # Used only on firstAuth.py

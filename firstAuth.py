@@ -4,7 +4,6 @@ import webbrowser
 
 config = APIConfig()
 endpoints = EndpointsAuth()
-AUTHORIZE_ENDPOINT = "https://api.channeladvisor.com/oauth2/authorize"
 SCOPES = "orders inventory"
 
 

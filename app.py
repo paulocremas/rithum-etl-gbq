@@ -53,19 +53,19 @@ def read_orders_handler():
     """Handles the process of reading and displaying order data."""
     order_counter = 0
     orders_data = read_orders(new_access_token, endpoints.ORDERS_ENDPOINT)
-    next_link = True
+    next_link_orders = True
 
     if orders_data and "value" in orders_data and orders_data["value"]:
         print("\nOrders Data:")
-        while next_link:
-            orders_data = read_orders(new_access_token, orders_data["@odata.nextLink"])
+        while next_link_orders:
             if orders_data and "value" in orders_data:
                 order_counter += len(orders_data["value"])
                 print(len(orders_data["value"]))
                 if "@odata.nextLink" not in orders_data:
-                    next_link = False
+                    next_link_orders = False
             else:
-                next_link = False
+                next_link_orders = False
+            orders_data = read_orders(new_access_token, orders_data["@odata.nextLink"])
     else:
         print("\nFailed to read orders.")
     print(f"Total orders: {order_counter}")
