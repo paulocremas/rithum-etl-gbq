@@ -1,12 +1,14 @@
 import requests
 import base64
-from config import APIConfig, Endpoints
+from config import APIConfig, AccessToken, DistributionCenters, Orders
 
 config = APIConfig()
-endpoints = Endpoints()
+access_token = AccessToken()
+distribution_centers = DistributionCenters()
+orders = Orders()
 
 
-def refresh_access_token(refresh_token):
+def refresh_access_token():
     """Exchanges the refresh token for a new access token."""
     auth_header = base64.b64encode(
         f"{config.CLIENT_ID}:{config.CLIENT_SECRET}".encode()
@@ -15,15 +17,14 @@ def refresh_access_token(refresh_token):
         "Authorization": f"Basic {auth_header}",
         "Content-Type": "application/x-www-form-urlencoded",
     }
-    data = {"grant_type": "refresh_token", "refresh_token": refresh_token}
+    data = {"grant_type": "refresh_token", "refresh_token": config.REFRESH_TOKEN}
     try:
-        response = requests.post(endpoints.TOKEN_ENDPOINT, headers=headers, data=data)
+        response = requests.post(config.TOKEN_ENDPOINT, headers=headers, data=data)
         response.raise_for_status()
         token_data = response.json()
         return (
             token_data.get("access_token"),
             token_data.get("expires_in"),
-            token_data.get("refresh_token"),
         )
     except requests.exceptions.RequestException as e:
         print(f"Error refreshing access token: {e}")
@@ -33,9 +34,9 @@ def refresh_access_token(refresh_token):
         return None, None, None
 
 
-def read_orders(access_token, endpoint=None, filter_params=None):
+def request_api(endpoint=None, filter_params=None):
     """Reads orders from the ChannelAdvisor API."""
-    headers = {"Authorization": f"Bearer {access_token}"}
+    headers = {"Authorization": f"Bearer {access_token.ACCESS_TOKEN}"}
     params = filter_params if filter_params else {}
     try:
         response = requests.get(endpoint, headers=headers, params=params)
@@ -49,45 +50,57 @@ def read_orders(access_token, endpoint=None, filter_params=None):
         return None
 
 
-def read_orders_handler():
-    """Handles the process of reading and displaying order data."""
-    order_counter = 0
-    orders_data = read_orders(new_access_token, endpoints.ORDERS_ENDPOINT)
-    next_link_orders = True
-
-    if orders_data and "value" in orders_data and orders_data["value"]:
-        print("\nOrders Data:")
-        while next_link_orders:
-            if orders_data and "value" in orders_data:
-                order_counter += len(orders_data["value"])
-                print(len(orders_data["value"]))
-                if "@odata.nextLink" not in orders_data:
-                    next_link_orders = False
+def extract_data(request, items):
+    isProcessing = True
+    processed_data = []
+    while isProcessing:
+        if request and "value" in request:
+            for item in request["value"]:
+                item = {key: item[key] for key in items}
+                processed_data.append(item)
+            if "@odata.nextLink" not in request:
+                isProcessing = False
             else:
-                next_link_orders = False
-            orders_data = read_orders(new_access_token, orders_data["@odata.nextLink"])
-    else:
-        print("\nFailed to read orders.")
-    print(f"Total orders: {order_counter}")
+                request = request_api(request["@odata.nextLink"])
+        else:
+            isProcessing = False
+    return processed_data
+
+
+def read_distribution_centers():
+    distribution_centers_data = extract_data(
+        request_api(distribution_centers.ENDPOINT), distribution_centers.KEYS
+    )
+    # Transform the list of dictionaries into a dictionary with ID as key and Name as value
+    distribution_centers.DISTRIBUTION_CENTERS_DICT = {
+        str(item["ID"]): item["Name"] for item in distribution_centers_data
+    }
+
+
+def read_orders():
+    orders_data = extract_data(request_api(orders.ENDPOINT), orders.KEYS)
+    print(orders_data)
+    print(len(orders_data))
 
 
 if __name__ == "__main__":
     print("Requesting a new access token using the refresh token...")
-    new_access_token, new_expires_in, new_refresh_token = refresh_access_token(
-        config.REFRESH_TOKEN
-    )
+    access_token.ACCESS_TOKEN, access_token.EXPIRES_IN = refresh_access_token()
 
-    if new_access_token:
+    if access_token.ACCESS_TOKEN:
         print("\nNew Access Token Obtained")
-        print(f"Access Token: {new_access_token}")
-        if new_expires_in:
-            print(f"Expires in: {new_expires_in} seconds")
-        if new_refresh_token:
-            print(f"New Refresh Token (may have been updated): {new_refresh_token}")
+        print(f"Access Token: {access_token.ACCESS_TOKEN}")
+        if access_token.EXPIRES_IN:
+            print(f"Expires in: {access_token.EXPIRES_IN} seconds")
+        if access_token.ACCESS_TOKEN:
+            print(
+                f"New Refresh Token (may have been updated): {access_token.ACCESS_TOKEN}"
+            )
             # You MUST save the new refresh token!
         print("\nAccess token refreshed successfully!")
         print("\nReading orders...")
-        read_orders_handler()
+        read_distribution_centers()
+        read_orders()
 
     else:
         print(

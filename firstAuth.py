@@ -1,9 +1,9 @@
 from urllib.parse import urlencode
-from config import APIConfig, EndpointsAuth
+from config import APIConfig, EndpointsFirstAuth
 import webbrowser
 
 config = APIConfig()
-endpoints = EndpointsAuth()
+endpoints = EndpointsFirstAuth()
 SCOPES = "orders inventory"
 
 
