@@ -1,14 +1,30 @@
 import requests
 import base64
-from config import APIConfig, AccessToken, DistributionCenters, Orders
+from config import (
+    APIConfig,
+    AccessToken,
+    DistributionCenters,
+    DateParams,
+    Orders,
+    Fulfilments,
+    ItemInOrder,
+    Item,
+    DataToInsert,
+)
+
 
 config = APIConfig()
 access_token = AccessToken()
 distribution_centers = DistributionCenters()
+date_params = DateParams()
 orders = Orders()
+fulfilments = Fulfilments()
+item_in_order = ItemInOrder()
+item = Item()
+data_to_insert = DataToInsert()
 
 
-def refresh_access_token():
+def refreshAccessToken():
     """Exchanges the refresh token for a new access token."""
     auth_header = base64.b64encode(
         f"{config.CLIENT_ID}:{config.CLIENT_SECRET}".encode()
@@ -34,7 +50,7 @@ def refresh_access_token():
         return None, None, None
 
 
-def request_api(endpoint=None, filter_params=None):
+def requestApi(endpoint=None, filter_params=None):
     """Reads orders from the ChannelAdvisor API."""
     headers = {"Authorization": f"Bearer {access_token.ACCESS_TOKEN}"}
     params = filter_params if filter_params else {}
@@ -50,7 +66,7 @@ def request_api(endpoint=None, filter_params=None):
         return None
 
 
-def extract_data(request, items):
+def extractData(request, items):
     isProcessing = True
     processed_data = []
     while isProcessing:
@@ -61,15 +77,15 @@ def extract_data(request, items):
             if "@odata.nextLink" not in request:
                 isProcessing = False
             else:
-                request = request_api(request["@odata.nextLink"])
+                request = requestApi(request["@odata.nextLink"])
         else:
             isProcessing = False
     return processed_data
 
 
-def read_distribution_centers():
-    distribution_centers_data = extract_data(
-        request_api(distribution_centers.ENDPOINT), distribution_centers.KEYS
+def readDistributionCenters():
+    distribution_centers_data = extractData(
+        requestApi(distribution_centers.ENDPOINT), distribution_centers.KEYS
     )
     # Transform the list of dictionaries into a dictionary with ID as key and Name as value
     distribution_centers.DISTRIBUTION_CENTERS_DICT = {
@@ -77,15 +93,22 @@ def read_distribution_centers():
     }
 
 
-def read_orders():
-    orders_data = extract_data(request_api(orders.ENDPOINT), orders.KEYS)
+def readOrders():
+    orders_data = extractData(
+        requestApi(orders.ENDPOINT, date_params.PARAMS), orders.KEYS
+    )
+    # for order in orders_data:
+    #     distribution_centers_id = extractData(
+    #         requestApi(fulfilments.ENDPOINT.format(order_id=order["ID"])),
+    #         fulfilments.KEYS,
+    #     )
     print(orders_data)
     print(len(orders_data))
 
 
 if __name__ == "__main__":
     print("Requesting a new access token using the refresh token...")
-    access_token.ACCESS_TOKEN, access_token.EXPIRES_IN = refresh_access_token()
+    access_token.ACCESS_TOKEN, access_token.EXPIRES_IN = refreshAccessToken()
 
     if access_token.ACCESS_TOKEN:
         print("\nNew Access Token Obtained")
@@ -99,8 +122,8 @@ if __name__ == "__main__":
             # You MUST save the new refresh token!
         print("\nAccess token refreshed successfully!")
         print("\nReading orders...")
-        read_distribution_centers()
-        read_orders()
+        readDistributionCenters()
+        readOrders()
 
     else:
         print(
