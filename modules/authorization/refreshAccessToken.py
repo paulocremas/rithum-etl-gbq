@@ -1,7 +1,4 @@
 import requests, base64
-import sys, os
-
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 from modules.configuration.config import (
     API_CONFIG,
     ACCESS_TOKEN,

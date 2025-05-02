@@ -1,5 +1,8 @@
 import os
 from datetime import datetime, timedelta
+from pandas import DataFrame
+from dateutil import parser
+import pytz
 
 days_to_process = 1
 
@@ -111,25 +114,36 @@ class Item:
         DISTRIBUTION_CENTER,
         ORDER_ID,
     ):
-        self.ID = ID
-        self.CREATE_DATE_UTC = CREATE_DATE_UTC
-        self.SKU = SKU
-        self.TITLE = TITLE
-        self.QUANTITY = QUANTITY
-        self.UNIT_PRICE = UNIT_PRICE
-        self.TAX_PRICE = TAX_PRICE
-        self.SHIPPING_PRICE = SHIPPING_PRICE
-        self.SHIPPING_TAX_PRICE = SHIPPING_TAX_PRICE
-        self.DISTRIBUTION_CENTER = DISTRIBUTION_CENTER
-        self.ORDER_ID = ORDER_ID
+        self.id = ID
+        self.create_date = parser.isoparse(CREATE_DATE_UTC).astimezone(
+            pytz.timezone("America/Los_Angeles")
+        )
+        self.sku = SKU
+        self.title = TITLE
+        self.quantity = QUANTITY
+        self.unit_price = UNIT_PRICE
+        self.tax_price = TAX_PRICE
+        self.shipping_price = SHIPPING_PRICE
+        self.shipping_tax_price = SHIPPING_TAX_PRICE
+        self.distribution_center = DISTRIBUTION_CENTER
+        self.order_id = ORDER_ID
 
 
 class DataToInsert:
     def __init__(self):
-        self.DATA = []
+        self.DATA = DataFrame()
 
 
 DATA_TO_INSERT = DataToInsert()
+
+
+class BigQueryConfig:
+    def __init__(self):
+        self.TABLE_ID = os.environ.get("TABLE_ID")
+        self.GOOGLE_APPLICATION_CREDENTIALS = os.environ.get(
+            "GOOGLE_APPLICATION_CREDENTIALS"
+        )
+        self.BUCKET_URI = os.environ.get("BUCKET_URI")
 
 
 # Used only on firstAuth.py

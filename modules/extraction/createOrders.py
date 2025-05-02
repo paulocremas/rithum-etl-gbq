@@ -1,6 +1,3 @@
-import sys, os
-
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 from modules.configuration.config import (
     DISTRIBUTION_CENTERS,
     ORDERS_API_CALL,
@@ -12,6 +9,7 @@ from modules.configuration.config import (
 from modules.configuration.config import Item
 from modules.extraction.extractDataFromApi import extractDataFromApi
 from modules.transform.nameDistributionCenters import getDistributionCenterName
+from pandas import concat, DataFrame
 
 
 def getDistributionCenters():
@@ -28,7 +26,6 @@ def readOrders():
         CURRENT_ORDER.ID = order["ID"]
         CURRENT_ORDER.CREATE_DATE_UTC = order["CreatedDateUtc"]
         createItemsInOrder()
-    print(DATA_TO_INSERT.DATA)
 
 
 def createItemsInOrder():
@@ -41,24 +38,32 @@ def createItemsInOrder():
         except IndexError:
             distribution_centers_index = 0
             continue
-        DATA_TO_INSERT.DATA.append(
-            Item(
-                ID=items[i]["ID"],
-                CREATE_DATE_UTC=CURRENT_ORDER.CREATE_DATE_UTC,
-                SKU=items[i]["Sku"],
-                TITLE=items[i]["Title"],
-                QUANTITY=items[i]["Quantity"],
-                UNIT_PRICE=items[i]["UnitPrice"],
-                TAX_PRICE=items[i]["TaxPrice"],
-                SHIPPING_PRICE=items[i]["ShippingPrice"],
-                SHIPPING_TAX_PRICE=items[i]["ShippingTaxPrice"],
-                DISTRIBUTION_CENTER=getDistributionCenterName(
-                    distribution_centers_id[distribution_centers_index][
-                        "DistributionCenterID"
+        DATA_TO_INSERT.DATA = concat(
+            [
+                DATA_TO_INSERT.DATA,
+                DataFrame(
+                    [
+                        Item(
+                            ID=items[i]["ID"],
+                            CREATE_DATE_UTC=CURRENT_ORDER.CREATE_DATE_UTC,
+                            SKU=items[i]["Sku"],
+                            TITLE=items[i]["Title"],
+                            QUANTITY=items[i]["Quantity"],
+                            UNIT_PRICE=items[i]["UnitPrice"],
+                            TAX_PRICE=items[i]["TaxPrice"],
+                            SHIPPING_PRICE=items[i]["ShippingPrice"],
+                            SHIPPING_TAX_PRICE=items[i]["ShippingTaxPrice"],
+                            DISTRIBUTION_CENTER=getDistributionCenterName(
+                                distribution_centers_id[distribution_centers_index][
+                                    "DistributionCenterID"
+                                ]
+                            ),
+                            ORDER_ID=CURRENT_ORDER.ID,
+                        ).__dict__
                     ]
                 ),
-                ORDER_ID=CURRENT_ORDER.ID,
-            ).__dict__
+            ],
+            ignore_index=True,
         )
 
 
