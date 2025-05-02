@@ -1,18 +1,20 @@
 import sys, os
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
-from config import (
+from modules.configuration.config import (
     DISTRIBUTION_CENTERS,
     ORDERS_API_CALL,
-    FULFILLMENTS,
     ITEM_IN_ORDER,
+    FULFILLMENTS,
+    CURRENT_ORDER,
     DATA_TO_INSERT,
 )
-from modules.config import Item
-from modules.extraction.extractRequest import extractDataFromApi
+from modules.configuration.config import Item
+from modules.extraction.extractDataFromApi import extractDataFromApi
+from modules.transform.nameDistributionCenters import getDistributionCenterName
 
 
-def readDistributionCenters():
+def getDistributionCenters():
     distribution_centers_data = extractDataFromApi(DISTRIBUTION_CENTERS)
     # Transform the list of dictionaries into a dictionary with ID as key and Name as value
     DISTRIBUTION_CENTERS.DISTRIBUTION_CENTERS_DICT = {
@@ -23,17 +25,15 @@ def readDistributionCenters():
 def readOrders():
     orders_data = extractDataFromApi(ORDERS_API_CALL)
     for order in orders_data:
-        createItemsInOrder(order["ID"], order["CreatedDateUtc"])
+        CURRENT_ORDER.ID = order["ID"]
+        CURRENT_ORDER.CREATE_DATE_UTC = order["CreatedDateUtc"]
+        createItemsInOrder()
+    print(DATA_TO_INSERT.DATA)
 
 
-def createItemsInOrder(order_id, createDate):
-    ITEM_IN_ORDER.ORDER_ID = order_id
+def createItemsInOrder():
     items = extractDataFromApi(ITEM_IN_ORDER)
     distribution_centers_id = extractDataFromApi(FULFILLMENTS)
-    if len(distribution_centers_id) > 1:
-        print(order_id)
-    if len(items) < len(distribution_centers_id):
-        print(order_id)
     for i in range(len(items)):
         try:
             distribution_centers_id[i]["DistributionCenterID"]
@@ -44,7 +44,7 @@ def createItemsInOrder(order_id, createDate):
         DATA_TO_INSERT.DATA.append(
             Item(
                 ID=items[i]["ID"],
-                CREATE_DATE_UTC=createDate,
+                CREATE_DATE_UTC=CURRENT_ORDER.CREATE_DATE_UTC,
                 SKU=items[i]["Sku"],
                 TITLE=items[i]["Title"],
                 QUANTITY=items[i]["Quantity"],
@@ -57,18 +57,11 @@ def createItemsInOrder(order_id, createDate):
                         "DistributionCenterID"
                     ]
                 ),
-                ORDER_ID=order_id,
+                ORDER_ID=CURRENT_ORDER.ID,
             ).__dict__
         )
 
 
-def getDistributionCenterName(distribution_center_id):
-    """Returns the name of the distribution center based on its ID."""
-    return DISTRIBUTION_CENTERS.DISTRIBUTION_CENTERS_DICT.get(
-        str(distribution_center_id), "Unknown Distribution Center"
-    )
-
-
 def extractData():
-    readDistributionCenters()
+    getDistributionCenters()
     readOrders()

@@ -1,7 +1,7 @@
 import os
 from datetime import datetime, timedelta
 
-days_to_process = 5000
+days_to_process = 1
 
 
 class APIConfig:
@@ -85,6 +85,15 @@ class ItemInOrder:
 
 
 ITEM_IN_ORDER = ItemInOrder()
+
+
+class CurrentOrder:
+    def __init__(self):
+        self.ID = None
+        self.CREATE_DATE_UTC = None
+
+
+CURRENT_ORDER = CurrentOrder()
 
 
 class Item:

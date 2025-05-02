@@ -2,7 +2,7 @@ import requests
 import sys, os
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
-from config import ACCESS_TOKEN
+from modules.configuration.config import ACCESS_TOKEN, CURRENT_ORDER
 
 
 def requestApi(endpoint=None, filter_params=None):
@@ -40,16 +40,13 @@ def extractDataFromRequest(request, items):
 
 # FIX THIS FIRST THING
 def extractDataFromApi(configObject):
-    print(configObject)
-    print(type(configObject))
     extracted_data = requestApi(
         (
-            configObject.ENDPOINT.format(order_id=configObject.ORDER_ID)
+            configObject.ENDPOINT.format(ORDER_ID=CURRENT_ORDER.ID)
             if hasattr(configObject, "ORDER_ID")
             else configObject.ENDPOINT
         ),
         getattr(configObject, "PARAMS", None),
     )
     orders_data = extractDataFromRequest(extracted_data, configObject.KEYS)
-    print(orders_data)
     return orders_data
