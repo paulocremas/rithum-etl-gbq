@@ -22,10 +22,13 @@ def getDistributionCenters():
 
 def readOrders():
     orders_data = extractDataFromApi(ORDERS_API_CALL)
+    CURRENT_ORDER.CREATING_ORDER = True
     for order in orders_data:
         CURRENT_ORDER.ID = order["ID"]
         CURRENT_ORDER.CREATE_DATE_UTC = order["CreatedDateUtc"]
+        print(CURRENT_ORDER.ID)
         createItemsInOrder()
+    CURRENT_ORDER.CREATING_ORDER = False
 
 
 def createItemsInOrder():

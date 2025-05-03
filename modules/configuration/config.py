@@ -30,7 +30,7 @@ ACCESS_TOKEN = AccessToken()
 class DistributionCenters:
     def __init__(self):
         self.ENDPOINT = "https://api.channeladvisor.com/v1/DistributionCenters"
-        self.KEYS = ["ID", "Name"]
+        self.PARAMS = {"$select": "ID,Name"}
         self.DISTRIBUTION_CENTERS_DICT = None
 
 
@@ -40,7 +40,6 @@ DISTRIBUTION_CENTERS = DistributionCenters()
 class OrdersApiCall:
     def __init__(self):
         self.ENDPOINT = "https://api.channeladvisor.com/v1/Orders"
-        self.KEYS = ["ID", "CreatedDateUtc"]
         self.PARAMS = SetOrdersApiDateParams()
 
 
@@ -50,9 +49,7 @@ def SetOrdersApiDateParams():
     )
     end_date = datetime.now().strftime("%Y-%m-%dT%H:%M:%SZ")
     param_filter = f"CreatedDateUtc ge {start_date} and CreatedDateUtc le {end_date}"
-    params = {
-        "$filter": param_filter,
-    }
+    params = {"$filter": param_filter, "$select": "ID,CreatedDateUtc"}
     return params
 
 
@@ -64,8 +61,7 @@ class Fulfillments:
         self.ENDPOINT = (
             f"https://api.channeladvisor.com/v1/Orders({{ORDER_ID}})/Fulfillments"
         )
-        self.KEYS = ["DistributionCenterID"]
-        self.ORDER_ID = None
+        self.PARAMS = {"$select": "DistributionCenterID"}
 
 
 FULFILLMENTS = Fulfillments()
@@ -74,17 +70,9 @@ FULFILLMENTS = Fulfillments()
 class ItemInOrder:
     def __init__(self):
         self.ENDPOINT = f"https://api.channeladvisor.com/v1/Orders({{ORDER_ID}})/Items"
-        self.KEYS = [
-            "ID",
-            "Sku",
-            "Title",
-            "Quantity",
-            "UnitPrice",
-            "TaxPrice",
-            "ShippingPrice",
-            "ShippingTaxPrice",
-        ]
-        self.ORDER_ID = None
+        self.PARAMS = {
+            "$select": "ID,Sku,Title,Quantity,UnitPrice,TaxPrice,ShippingPrice,ShippingTaxPrice"
+        }
 
 
 ITEM_IN_ORDER = ItemInOrder()
@@ -94,6 +82,7 @@ class CurrentOrder:
     def __init__(self):
         self.ID = None
         self.CREATE_DATE_UTC = None
+        self.CREATING_ORDER = False
 
 
 CURRENT_ORDER = CurrentOrder()
@@ -127,6 +116,8 @@ class Item:
         self.shipping_tax_price = SHIPPING_TAX_PRICE
         self.distribution_center = DISTRIBUTION_CENTER
         self.order_id = ORDER_ID
+        self.consider = True
+        self.real_true = True
 
 
 class DataToInsert:
@@ -143,7 +134,6 @@ class BigQueryConfig:
         self.GOOGLE_APPLICATION_CREDENTIALS = os.environ.get(
             "GOOGLE_APPLICATION_CREDENTIALS"
         )
-        self.BUCKET_URI = os.environ.get("BUCKET_URI")
 
 
 # Used only on firstAuth.py
