@@ -8,4 +8,3 @@ if __name__ == "__main__":
     refreshAccessToken()
     extractData()
     # load_data_to_bq()
-    print(DATA_TO_INSERT.DATA["create_date"])

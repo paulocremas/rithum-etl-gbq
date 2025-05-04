@@ -4,7 +4,7 @@ from pandas import DataFrame
 from dateutil import parser
 import pytz
 
-days_to_process = 1
+days_to_process = 10
 
 
 class APIConfig:

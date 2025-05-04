@@ -27,19 +27,38 @@ def requestApi(endpoint=None, filter_params=None):
         return None
 
 
-# Function to extract data from an API using a configuration object
 def extractDataFromApi(configObject):
-    # Make the initial API request, formatting the endpoint if ORDER_ID is present
-    extracted_data = requestApi(
-        (
-            configObject.ENDPOINT.format(ORDER_ID=CURRENT_ORDER.ID)
-            if CURRENT_ORDER.CREATING_ORDER
-            is True  # Check if ORDER_ID exists in the config object
-            else configObject.ENDPOINT  # Use the endpoint directly if ORDER_ID is not present
-        ),
-        getattr(
-            configObject, "PARAMS", None
-        ),  # Get the parameters from the config object, if available
+    """Extracts data from an API using a configuration object."""
+    processed_data = []
+    endpoint = (
+        configObject.ENDPOINT.format(ORDER_ID=CURRENT_ORDER.ID)
+        if CURRENT_ORDER.CREATING_ORDER
+        else configObject.ENDPOINT
     )
+
+    while endpoint:
+        print(f"Processing endpoint: {endpoint}")
+        # Make the API request
+        if (
+            endpoint == configObject.ENDPOINT
+        ):  # Use parameters only for the initial request
+            extracted_data = requestApi(
+                endpoint,
+                getattr(
+                    configObject, "PARAMS", None
+                ),  # Get parameters from the config object, if available
+            )
+        else:
+            extracted_data = requestApi(
+                endpoint
+            )  # Process only the link without parameters
+
+        processed_data.extend(extracted_data["value"])
+        # Check if the response contains valid data
+        if extracted_data.get("@odata.nextLink"):
+            endpoint = extracted_data.get("@odata.nextLink")
+        else:
+            break  # Exit the loop if no data is returned
+
     # Return the processed data
-    return extracted_data["value"]
+    return processed_data

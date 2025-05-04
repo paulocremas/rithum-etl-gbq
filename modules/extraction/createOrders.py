@@ -22,6 +22,7 @@ def getDistributionCenters():
 
 def readOrders():
     orders_data = extractDataFromApi(ORDERS_API_CALL)
+    print(len(orders_data))
     CURRENT_ORDER.CREATING_ORDER = True
     for order in orders_data:
         CURRENT_ORDER.ID = order["ID"]
