@@ -9,7 +9,29 @@ from modules.configuration.config import (
 from modules.configuration.config import Item
 from modules.extraction.extractDataFromApi import extractDataFromApi
 from modules.transform.nameDistributionCenters import getDistributionCenterName
+from modules.transform.dateHandler import convertStringUtcToCst
 from pandas import concat, DataFrame
+import sys
+
+
+def extractData():
+    orders_data = extractDataFromApi(ORDERS_API_CALL)
+    getDistributionCenters()
+
+    if not orders_data:
+        print("No orders to extract.")
+        sys.exit(0)
+
+    total = len(orders_data)
+    current = total
+    CURRENT_ORDER.CREATING_ORDER = True
+    for order in orders_data:
+        print(f"Orders left to process: {total}/{current}")
+        CURRENT_ORDER.ID = order["ID"]
+        CURRENT_ORDER.CREATE_DATE_UTC = order["CreatedDateUtc"]
+        createItemsInOrder()
+        current -= 1
+    CURRENT_ORDER.CREATING_ORDER = False
 
 
 def getDistributionCenters():
@@ -18,18 +40,6 @@ def getDistributionCenters():
     DISTRIBUTION_CENTERS.DISTRIBUTION_CENTERS_DICT = {
         str(item["ID"]): item["Name"] for item in distribution_centers_data
     }
-
-
-def readOrders():
-    orders_data = extractDataFromApi(ORDERS_API_CALL)
-    print(len(orders_data))
-    CURRENT_ORDER.CREATING_ORDER = True
-    for order in orders_data:
-        CURRENT_ORDER.ID = order["ID"]
-        CURRENT_ORDER.CREATE_DATE_UTC = order["CreatedDateUtc"]
-        print(CURRENT_ORDER.ID)
-        createItemsInOrder()
-    CURRENT_ORDER.CREATING_ORDER = False
 
 
 def createItemsInOrder():
@@ -49,7 +59,9 @@ def createItemsInOrder():
                     [
                         Item(
                             ID=items[i]["ID"],
-                            CREATE_DATE_UTC=CURRENT_ORDER.CREATE_DATE_UTC,
+                            CREATE_DATE=convertStringUtcToCst(
+                                CURRENT_ORDER.CREATE_DATE_UTC
+                            ),
                             SKU=items[i]["Sku"],
                             TITLE=items[i]["Title"],
                             QUANTITY=items[i]["Quantity"],
@@ -69,8 +81,3 @@ def createItemsInOrder():
             ],
             ignore_index=True,
         )
-
-
-def extractData():
-    getDistributionCenters()
-    readOrders()

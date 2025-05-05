@@ -1,10 +1,7 @@
 import os
-from datetime import datetime, timedelta
 from pandas import DataFrame
-from dateutil import parser
-import pytz
-
-days_to_process = 10
+from google.cloud import bigquery
+from modules.transform.dateHandler import convertDateTimeCstToUtc, nowUtc
 
 
 class APIConfig:
@@ -37,20 +34,56 @@ class DistributionCenters:
 DISTRIBUTION_CENTERS = DistributionCenters()
 
 
+class BigQueryConfig:
+    def __init__(self):
+        self.TABLE_ID = os.environ.get("TABLE_ID")
+        self.GOOGLE_APPLICATION_CREDENTIALS = os.environ.get(
+            "GOOGLE_APPLICATION_CREDENTIALS"
+        )
+        self.CLIENT = bigquery.Client()
+
+
+BIGQUERY_CONFIG = BigQueryConfig()
+
+
 class OrdersApiCall:
     def __init__(self):
         self.ENDPOINT = "https://api.channeladvisor.com/v1/Orders"
-        self.PARAMS = SetOrdersApiDateParams()
+        self.PARAMS = SetOrdersApiParams()
 
 
-def SetOrdersApiDateParams():
-    start_date = (datetime.now() - timedelta(days=days_to_process)).strftime(
-        "%Y-%m-%dT%H:%M:%SZ"
-    )
-    end_date = datetime.now().strftime("%Y-%m-%dT%H:%M:%SZ")
-    param_filter = f"CreatedDateUtc ge {start_date} and CreatedDateUtc le {end_date}"
+def SetOrdersApiParams():
+    query = f"""
+        SELECT create_date
+        FROM `{BIGQUERY_CONFIG.TABLE_ID}`
+        ORDER BY create_date DESC
+        LIMIT 1
+    """
+
+    query_job = BIGQUERY_CONFIG.CLIENT.query(query)  # API request
+    rows = query_job.result()  # Waits for query to finish
+
+    for row in rows:
+        latest_create_date = row.create_date
+
+    param_filter = f"CreatedDateUtc ge {convertDateTimeCstToUtc(latest_create_date)} and CreatedDateUtc le {nowUtc()}"
     params = {"$filter": param_filter, "$select": "ID,CreatedDateUtc"}
+
     return params
+
+
+# Uncomment the following lines to set a specific date range
+# days_to_process = 0.25
+
+
+# def SetOrdersApiParams():
+#     start_date = (datetime.now() - timedelta(days=days_to_process)).strftime(
+#         "%Y-%m-%dT%H:%M:%SZ"
+#     )
+#     end_date = datetime.now().strftime("%Y-%m-%dT%H:%M:%SZ")
+#     param_filter = f"CreatedDateUtc ge {start_date} and CreatedDateUtc le {end_date}"
+#     params = {"$filter": param_filter, "$select": "ID,CreatedDateUtc"}
+#     return params
 
 
 ORDERS_API_CALL = OrdersApiCall()
@@ -92,7 +125,7 @@ class Item:
     def __init__(
         self,
         ID,
-        CREATE_DATE_UTC,
+        CREATE_DATE,
         SKU,
         TITLE,
         QUANTITY,
@@ -104,9 +137,8 @@ class Item:
         ORDER_ID,
     ):
         self.id = ID
-        self.create_date = parser.isoparse(CREATE_DATE_UTC).astimezone(
-            pytz.timezone("America/Los_Angeles")
-        )
+        self.create_date = CREATE_DATE
+        self.time_zone = "CST"
         self.sku = SKU
         self.title = TITLE
         self.quantity = QUANTITY
@@ -116,8 +148,6 @@ class Item:
         self.shipping_tax_price = SHIPPING_TAX_PRICE
         self.distribution_center = DISTRIBUTION_CENTER
         self.order_id = ORDER_ID
-        self.consider = True
-        self.real_true = True
 
 
 class DataToInsert:
@@ -126,14 +156,6 @@ class DataToInsert:
 
 
 DATA_TO_INSERT = DataToInsert()
-
-
-class BigQueryConfig:
-    def __init__(self):
-        self.TABLE_ID = os.environ.get("TABLE_ID")
-        self.GOOGLE_APPLICATION_CREDENTIALS = os.environ.get(
-            "GOOGLE_APPLICATION_CREDENTIALS"
-        )
 
 
 # Used only on firstAuth.py

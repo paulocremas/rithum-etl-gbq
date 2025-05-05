@@ -37,10 +37,9 @@ def extractDataFromApi(configObject):
     )
 
     while endpoint:
-        print(f"Processing endpoint: {endpoint}")
         # Make the API request
         if (
-            endpoint == configObject.ENDPOINT
+            endpoint == configObject.ENDPOINT or CURRENT_ORDER.CREATING_ORDER
         ):  # Use parameters only for the initial request
             extracted_data = requestApi(
                 endpoint,
@@ -56,7 +55,7 @@ def extractDataFromApi(configObject):
         processed_data.extend(extracted_data["value"])
         # Check if the response contains valid data
         if extracted_data.get("@odata.nextLink"):
-            endpoint = extracted_data.get("@odata.nextLink")
+            endpoint = extracted_data["@odata.nextLink"]
         else:
             break  # Exit the loop if no data is returned
 

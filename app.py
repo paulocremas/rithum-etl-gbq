@@ -7,4 +7,5 @@ if __name__ == "__main__":
 
     refreshAccessToken()
     extractData()
+    print(DATA_TO_INSERT.DATA)
     # load_data_to_bq()
