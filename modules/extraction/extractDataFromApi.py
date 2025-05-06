@@ -1,5 +1,6 @@
 import requests
-from modules.configuration.config import ACCESS_TOKEN, CURRENT_ORDER
+from modules.configuration.authorizationConfig import ACCESS_TOKEN
+from modules.configuration.ordersConfig import CURRENT_ORDER
 
 
 # Function to make an API request

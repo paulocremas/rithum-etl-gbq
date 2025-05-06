@@ -3,7 +3,7 @@
 # - base64: for encoding credentials
 # - API_CONFIG and ACCESS_TOKEN are loaded from a configuration module
 import requests, base64
-from modules.configuration.config import (
+from modules.configuration.authorizationConfig import (
     API_CONFIG,
     ACCESS_TOKEN,
 )

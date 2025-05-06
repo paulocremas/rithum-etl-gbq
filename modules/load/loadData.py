@@ -1,4 +1,4 @@
-from modules.configuration.config import BigQueryConfig, DATA_TO_INSERT
+from modules.configuration.ordersConfig import BigQueryConfig, DATA_TO_INSERT
 
 
 def load_data_to_bq():

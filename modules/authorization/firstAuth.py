@@ -1,8 +1,7 @@
 from urllib.parse import urlencode
-from modules.configuration.config import APIConfig, EndpointsFirstAuth
+from modules.configuration.authorizationConfig import API_CONFIG, EndpointsFirstAuth
 import webbrowser
 
-config = APIConfig()
 endpoints = EndpointsFirstAuth()
 SCOPES = "orders inventory"
 
@@ -10,7 +9,7 @@ SCOPES = "orders inventory"
 def get_authorization_url():
     """Constructs the authorization URL."""
     params = {
-        "client_id": config.CLIENT_ID,
+        "client_id": API_CONFIG.CLIENT_ID,
         "response_type": "code",
         "access_type": "offline",
         "scope": SCOPES,

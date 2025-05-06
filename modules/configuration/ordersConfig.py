@@ -4,26 +4,6 @@ from google.cloud import bigquery
 from modules.transform.dateHandler import convertDateTimeCstToUtc, nowUtc
 
 
-class APIConfig:
-    def __init__(self):
-        self.CLIENT_ID = os.environ.get("APPLICATION_ID")
-        self.CLIENT_SECRET = os.environ.get("CLIENT_SECRET")
-        self.REFRESH_TOKEN = os.environ.get("REFRESH_TOKEN")
-        self.ENDPOINT = "https://api.channeladvisor.com/oauth2/token"
-
-
-API_CONFIG = APIConfig()
-
-
-class AccessToken:
-    def __init__(self):
-        self.ACCESS_TOKEN = None
-        self.EXPIRES_IN = None
-
-
-ACCESS_TOKEN = AccessToken()
-
-
 class DistributionCenters:
     def __init__(self):
         self.ENDPOINT = "https://api.channeladvisor.com/v1/DistributionCenters"
@@ -72,6 +52,8 @@ def SetOrdersApiParams():
     return params
 
 
+ORDERS_API_CALL = OrdersApiCall()
+
 # Uncomment the following lines to set a specific date range
 # days_to_process = 0.25
 
@@ -84,9 +66,6 @@ def SetOrdersApiParams():
 #     param_filter = f"CreatedDateUtc ge {start_date} and CreatedDateUtc le {end_date}"
 #     params = {"$filter": param_filter, "$select": "ID,CreatedDateUtc"}
 #     return params
-
-
-ORDERS_API_CALL = OrdersApiCall()
 
 
 class Fulfillments:
@@ -156,10 +135,3 @@ class DataToInsert:
 
 
 DATA_TO_INSERT = DataToInsert()
-
-
-# Used only on firstAuth.py
-class EndpointsFirstAuth:
-    def __init__(self):
-        self.ENDPOINT = "https://api.channeladvisor.com/oauth2/authorize"
-        self.REDIRECT_URI = ""

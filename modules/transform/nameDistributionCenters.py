@@ -1,4 +1,4 @@
-from modules.configuration.config import DISTRIBUTION_CENTERS
+from modules.configuration.ordersConfig import DISTRIBUTION_CENTERS
 
 
 def getDistributionCenterName(distribution_center_id):

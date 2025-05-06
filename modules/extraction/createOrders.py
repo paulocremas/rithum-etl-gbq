@@ -1,4 +1,4 @@
-from modules.configuration.config import (
+from modules.configuration.ordersConfig import (
     DISTRIBUTION_CENTERS,
     ORDERS_API_CALL,
     ITEM_IN_ORDER,
@@ -6,7 +6,7 @@ from modules.configuration.config import (
     CURRENT_ORDER,
     DATA_TO_INSERT,
 )
-from modules.configuration.config import Item
+from modules.configuration.ordersConfig import Item
 from modules.extraction.extractDataFromApi import extractDataFromApi
 from modules.transform.nameDistributionCenters import getDistributionCenterName
 from modules.transform.dateHandler import convertStringUtcToCst
