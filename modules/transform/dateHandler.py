@@ -12,6 +12,7 @@ utc = pytz.utc
 
 
 def convertDateTimeCstToUtc(date):
+    # Adds 1 second in order to not extract the last order inserted
     date = date + timedelta(seconds=1)
     date = cst.localize(date)
     return date.astimezone(utc).strftime("%Y-%m-%dT%H:%M:%SZ")
