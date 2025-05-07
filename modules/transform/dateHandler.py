@@ -12,7 +12,7 @@ utc = pytz.utc
 
 
 def convertDateTimeCstToUtc(date):
-    date = date.replace(tzinfo=cst)
+    date = date.localize(cst)
     return date.astimezone(utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
 

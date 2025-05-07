@@ -11,7 +11,7 @@ Make a request to API
 def requestApi(endpoint=None, filter_params=None):
     """Reads orders from the ChannelAdvisor API."""
     # Set up the request headers with the access token
-    headers = {"Authorization": f"Barer {ACCESS_TOKEN.ACCESS_TOKEN}"}
+    headers = {"Authorization": f"Bearer {ACCESS_TOKEN.ACCESS_TOKEN}"}
     # Use provided filter parameters or default to an empty dictionary
     params = filter_params if filter_params else {}
     # Make a GET request to the specified endpoint
