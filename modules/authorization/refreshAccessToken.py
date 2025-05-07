@@ -3,19 +3,6 @@ from modules.configuration.authorizationConfig import (
     API_CONFIG,
     ACCESS_TOKEN,
 )
-from modules.configuration.authorizationConfig import SYNCHRONIZE_CONFIG
-import time
-
-""" Controls token refreshing """
-
-
-def tokenRefresher():
-    while True:
-        SYNCHRONIZE_CONFIG.RUNNING = True
-        refreshAccessToken()
-        SYNCHRONIZE_CONFIG.RUNNING = False
-        time.sleep(3500)
-
 
 """ 
 Sends a request with a fix token (refresh_token) to get the access token
@@ -46,5 +33,6 @@ def refreshAccessToken():
 
     # Parse JSON response and update the ACCESS_TOKEN variables
     token_data = response.json()
-    ACCESS_TOKEN.ACCESS_TOKEN = token_data.get("access_token")
+    access_token = token_data.get("access_token")
+    ACCESS_TOKEN.ACCESS_TOKEN = {"Authorization": f"Bearer {access_token}"}
     ACCESS_TOKEN.EXPIRES_IN = token_data.get("expires_in")

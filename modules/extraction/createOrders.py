@@ -33,7 +33,7 @@ def extractData():
 
     if not orders_data:
         print("No orders to extract.")
-        sys.exit(0)
+        return
 
     total = len(orders_data)
     current = total

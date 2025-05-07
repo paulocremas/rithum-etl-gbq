@@ -1,6 +1,8 @@
 import requests
 from modules.configuration.authorizationConfig import ACCESS_TOKEN
 from modules.configuration.ordersConfig import CURRENT_ORDER
+from modules.authorization.refreshAccessToken import refreshAccessToken
+
 
 """
 Make a request to API
@@ -10,14 +12,15 @@ Make a request to API
 # Function to make an API request
 def requestApi(endpoint=None, filter_params=None):
     """Reads orders from the ChannelAdvisor API."""
-    # Set up the request headers with the access token
-    headers = {"Authorization": f"Bearer {ACCESS_TOKEN.ACCESS_TOKEN}"}
     # Use provided filter parameters or default to an empty dictionary
     params = filter_params if filter_params else {}
     # Make a GET request to the specified endpoint
-    response = requests.get(endpoint, headers=headers, params=params)
-    # Raise an exception if the response contains an HTTP error
-    response.raise_for_status()
+    response = requests.get(endpoint, headers=ACCESS_TOKEN.ACCESS_TOKEN, params=params)
+    if response.status_code == 401:
+        refreshAccessToken()
+        response = requests.get(
+            endpoint, headers=ACCESS_TOKEN.ACCESS_TOKEN, params=params
+        )
     # Return the response content as JSON
     return response.json()
 

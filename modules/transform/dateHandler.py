@@ -1,6 +1,6 @@
 import pytz
 from dateutil import parser
-from datetime import datetime
+from datetime import datetime, timedelta
 
 """
 Converts time, this is used when reading and inserting data. 
@@ -12,7 +12,8 @@ utc = pytz.utc
 
 
 def convertDateTimeCstToUtc(date):
-    date = date.localize(cst)
+    date = date + timedelta(seconds=1)
+    date = cst.localize(date)
     return date.astimezone(utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
 

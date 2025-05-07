@@ -4,14 +4,6 @@ import os
 # This config works for refreshAccessToken.py and extractDataFromApi.py
 
 
-class synchronizeConfig:
-    def __init__(self):
-        self.RUNNING = False
-
-
-SYNCHRONIZE_CONFIG = synchronizeConfig()
-
-
 class APIConfig:
     def __init__(self):
         self.CLIENT_ID = os.environ.get("APPLICATION_ID")

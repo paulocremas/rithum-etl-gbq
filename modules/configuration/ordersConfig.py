@@ -33,21 +33,24 @@ class OrdersApiCall:
 
 
 def SetOrdersApiParams():
-    query = f"""
-        SELECT create_date
-        FROM `{BIGQUERY_CONFIG.TABLE_ID}`
-        ORDER BY create_date DESC
-        LIMIT 1
-    """
+    try:
+        query = f"""
+            SELECT create_date
+            FROM `{BIGQUERY_CONFIG.TABLE_ID}`
+            ORDER BY create_date DESC
+            LIMIT 1
+        """
 
-    query_job = BIGQUERY_CONFIG.CLIENT.query(query)  # API request
-    rows = query_job.result()  # Waits for query to finish
+        query_job = BIGQUERY_CONFIG.CLIENT.query(query)  # API request
+        rows = query_job.result()  # Waits for query to finish
 
-    for row in rows:
-        latest_create_date = row.create_date
+        for row in rows:
+            latest_create_date = row.create_date
 
-    param_filter = f"CreatedDateUtc ge {convertDateTimeCstToUtc(latest_create_date)} and CreatedDateUtc le {nowUtc()}"
-    params = {"$filter": param_filter, "$select": "ID,CreatedDateUtc"}
+        param_filter = f"CreatedDateUtc ge {convertDateTimeCstToUtc(latest_create_date)} and CreatedDateUtc le {nowUtc()}"
+        params = {"$filter": param_filter, "$select": "ID,CreatedDateUtc"}
+    except:
+        params = {"$select": "ID,CreatedDateUtc"}
 
     return params
 
