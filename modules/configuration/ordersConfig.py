@@ -54,8 +54,10 @@ def SetOrdersApiParams():
 
 ORDERS_API_CALL = OrdersApiCall()
 
-# Uncomment the following lines to set a specific date range
-# days_to_process = 0.25
+# # Uncomment the following lines to set a specific date range
+# days_to_process = 2
+
+# from datetime import datetime, timedelta
 
 
 # def SetOrdersApiParams():

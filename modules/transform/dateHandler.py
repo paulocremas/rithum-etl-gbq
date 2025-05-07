@@ -2,6 +2,11 @@ import pytz
 from dateutil import parser
 from datetime import datetime
 
+"""
+Converts time, this is used when reading and inserting data. 
+Data is requested as UTC and stored as CST.
+"""
+
 cst = pytz.timezone("America/Chicago")  # This timezone is also CST
 utc = pytz.utc
 

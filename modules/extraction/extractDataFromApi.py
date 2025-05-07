@@ -2,34 +2,34 @@ import requests
 from modules.configuration.authorizationConfig import ACCESS_TOKEN
 from modules.configuration.ordersConfig import CURRENT_ORDER
 
+"""
+Make a request to API
+"""
+
 
 # Function to make an API request
 def requestApi(endpoint=None, filter_params=None):
     """Reads orders from the ChannelAdvisor API."""
     # Set up the request headers with the access token
-    headers = {"Authorization": f"Bearer {ACCESS_TOKEN.ACCESS_TOKEN}"}
+    headers = {"Authorization": f"Barer {ACCESS_TOKEN.ACCESS_TOKEN}"}
     # Use provided filter parameters or default to an empty dictionary
     params = filter_params if filter_params else {}
-    try:
-        # Make a GET request to the specified endpoint
-        response = requests.get(endpoint, headers=headers, params=params)
-        # Raise an exception if the response contains an HTTP error
-        response.raise_for_status()
-        # Return the response content as JSON
-        return response.json()
-    except requests.exceptions.RequestException as e:
-        # Print an error message if the request fails
-        print(f"Error reading orders: {e}")
-        if response is not None:
-            # Print additional details about the response if available
-            print(f"Response status code: {response.status_code}")
-            print(f"Response body: {response.text}")
-        # Return None in case of an error
-        return None
+    # Make a GET request to the specified endpoint
+    response = requests.get(endpoint, headers=headers, params=params)
+    # Raise an exception if the response contains an HTTP error
+    response.raise_for_status()
+    # Return the response content as JSON
+    return response.json()
+
+
+"""
+Extracts data from an API using a configuration object.
+After that it handles pagination if the request has more than 
+100 objects in its response.
+"""
 
 
 def extractDataFromApi(configObject):
-    """Extracts data from an API using a configuration object."""
     processed_data = []
     endpoint = (
         configObject.ENDPOINT.format(ORDER_ID=CURRENT_ORDER.ID)
@@ -51,14 +51,14 @@ def extractDataFromApi(configObject):
         else:
             extracted_data = requestApi(
                 endpoint
-            )  # Process only the link without parameters
+            )  # Process only the link without parameters, for pagination
 
         processed_data.extend(extracted_data["value"])
-        # Check if the response contains valid data
+        # Check if the response contains a next page
         if extracted_data.get("@odata.nextLink"):
             endpoint = extracted_data["@odata.nextLink"]
         else:
-            break  # Exit the loop if no data is returned
+            break  # Exit the loop pagination is found
 
     # Return the processed data
     return processed_data

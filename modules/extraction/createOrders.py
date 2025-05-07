@@ -1,3 +1,7 @@
+from pandas import concat, DataFrame
+import sys
+
+"""Configuration"""
 from modules.configuration.ordersConfig import (
     DISTRIBUTION_CENTERS,
     ORDERS_API_CALL,
@@ -7,11 +11,20 @@ from modules.configuration.ordersConfig import (
     DATA_TO_INSERT,
 )
 from modules.configuration.ordersConfig import Item
+
+"""Extraction from API"""
 from modules.extraction.extractDataFromApi import extractDataFromApi
+
+"""Transnform modules"""
 from modules.transform.nameDistributionCenters import getDistributionCenterName
 from modules.transform.dateHandler import convertStringUtcToCst
-from pandas import concat, DataFrame
-import sys
+
+
+"""
+extractData(): Extracts orders of the period set on ordersConfig.py
+getDistributionCenters(): Extracts distribution centers as a dict "ID" : "Name" (the requests return only ID)
+createItemsInOrder(): Requests Items and Fullfilments (distribution center ID) of each order, then adds each one to a dataframe
+"""
 
 
 def extractData():
