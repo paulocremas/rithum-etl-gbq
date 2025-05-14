@@ -97,11 +97,17 @@ This module refreshes the access token using the "REFRESH_TOKEN" globally, allow
 ---
 <a id="load"></a>
 ### [5. Load Module](https://github.com/paulocremas/rithum-etl-gbq/tree/main/modules/load)
+This module is responsible for loading the extracted & transformed data into BigQuery
 #### [loadData.py](https://github.com/paulocremas/rithum-etl-gbq/blob/main/modules/authorization/loadData.py)
+It inserts the global pandas dataframe setted in configuration into BigQuery
+
 ---
 <a id="email"></a>
 ### [6. E-mail Module](https://github.com/paulocremas/rithum-etl-gbq/tree/main/modules/email)
+This module is used for errors notifications
 #### [emailSender.py](https://github.com/paulocremas/rithum-etl-gbq/blob/main/modules/authorization/emailSender.py)
+This script sends a e-mail using g-mail based on the function param "message"
+
 ---
 <a id="app"></a>
 ### [7. app.py](https://github.com/paulocremas/rithum-etl-gbq/tree/main/app.py)
