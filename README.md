@@ -51,15 +51,15 @@ This module contains 9 classes and 1 function:
    
 7. Fulfillments: in this API call you can find the distribution center ID of the item requested (it is instantiated immediately upon import)
     * ENDPOINT: The URL for the ChannelAdvisor Fulfillments API endpoint
-    * PARAMS: Specifies the fields to be extracted on the API request.
+    * PARAMS: Specifies the fields to be extracted on the API request
 
-8. ItemInOrder: Used to request item data from each order.
-    * ENDPOINT: The URL for the ChannelAdvisor Items in Order API endpoint. It must be filled with an order ID.
-    * PARAMS: Specifies the fields to be extracted on the API request.
+8. ItemInOrder: Used to request item data from each order (it is instantiated immediately upon import)
+    * ENDPOINT: The URL for the ChannelAdvisor Items in Order API endpoint. It must be filled with an order ID
+    * PARAMS: Specifies the fields to be extracted on the API request 
 
-9. CurrentOrder
-    * ID: 
-    * CREATE_DATE_UTC: 
+9. CurrentOrder 
+    * ID: Stores the current Order ID to consult it
+    * CREATE_DATE_UTC: Stores the current Order ID to insertt it into the item class
     * CREATING_ORDER: The scripts uses this bool as a switch to know when a request is currently dealing with an order
 
 10. Item: This class serves as a blueprint for creating items destined for BigQuery. Its variables directly correspond to the fields in the BigQuery database table.
