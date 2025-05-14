@@ -92,8 +92,16 @@ This module refreshes the access token using the "REFRESH_TOKEN" globally, allow
 ---
 <a id="transform"></a>
 ### [4. Transform Modules](https://github.com/paulocremas/rithum-etl-gbq/tree/main/modules/transform)
+This modules are responsible for transforming data during the extraction phase
 #### [dateHandler.py](https://github.com/paulocremas/rithum-etl-gbq/blob/main/modules/transform/dateHandler.py)
+It have 3 functions:
+  * convertDateTimeCstToUtc(date): used to parse consuted date from BigQuery (CST) in order to create the API (UTC) orders request params
+  * convertStringUtcToCst(date): used to parse date from API (UTC) in order to insert it as CST on BigQuery
+  * nowUtc(): retuns now
+
 #### [nameDistributionCenters.py](https://github.com/paulocremas/rithum-etl-gbq/blob/main/modules/transform/nameDistributionCenters.py)
+Converts Distribution Centers ID's in names using it's dict.
+
 ---
 <a id="load"></a>
 ### [5. Load Module](https://github.com/paulocremas/rithum-etl-gbq/tree/main/modules/load)
