@@ -7,15 +7,15 @@ This ETL process was developed as commissioned by ChannelFront LLC. It extracts 
 
 1. [Configuration](#config)
 2. [Authorization](#auth)
-3. [APP.py](#app)
-4. [Extraction](#extract)
-5. [Transform](#transform)
-6. [Load](#load)
-7. [E-mail](#load)
+3. [Extraction](#extract)
+4. [Transform](#transform)
+5. [Load](#load)
+6. [E-mail](#email)
+7. [APP.py](#app)
 
 ---
 <a id="config"></a>
-### [Configuration Modules](https://github.com/paulocremas/rithum-etl-gbq/tree/main/modules/configuration)
+### [1. Configuration Modules](https://github.com/paulocremas/rithum-etl-gbq/tree/main/modules/configuration)
 #### [authorizationConfig.py](https://github.com/paulocremas/rithum-etl-gbq/blob/main/modules/configuration/authorizationConfig.py)
 This module contains 3 classes:
 1. APIConfig class, which holds essential credentials for accessing the ChannelAdvisor API. It is instantiated immediately upon import and provides configuration for other modules
@@ -73,7 +73,7 @@ This module contains 8 classes and 1 function:
 ---
 
 <a id="auth"></a>
-### [Authorization Modules](https://github.com/paulocremas/rithum-etl-gbq/tree/main/modules/authorization)
+### [2. Authorization Modules](https://github.com/paulocremas/rithum-etl-gbq/tree/main/modules/authorization)
 #### [refreshAccessToken.py](https://github.com/paulocremas/rithum-etl-gbq/blob/main/modules/authorization/firstAuth.py)
 This module grants access to your Developer Console Application (must have a single waypoint configured on authorizationConfig 3rd class and in Dev Console App)
   * get_authorization_url(): creates a custom url for authorization
@@ -82,3 +82,20 @@ It's used only on the first login.
 
 #### [refreshAccessToken.py](https://github.com/paulocremas/rithum-etl-gbq/blob/main/modules/authorization/refreshAccessToken.py)
 This module refreshes the access token using the "REFRESH_TOKEN" globally, allowing the script to make requests on the API
+
+---
+<a id="extract"></a>
+### [3. Extraction Modules](https://github.com/paulocremas/rithum-etl-gbq/tree/main/modules/extraction)
+---
+<a id="transform"></a>
+### [4. Transform Modules](https://github.com/paulocremas/rithum-etl-gbq/tree/main/modules/transform)
+---
+<a id="load"></a>
+### [5. Load Module](https://github.com/paulocremas/rithum-etl-gbq/tree/main/modules/load)
+---
+<a id="email"></a>
+### [6. E-mail Module](https://github.com/paulocremas/rithum-etl-gbq/tree/main/modules/email)
+---
+<a id="app"></a>
+### [7. app.py](https://github.com/paulocremas/rithum-etl-gbq/tree/main/app.py)
+This is the main module which runs everything, it
