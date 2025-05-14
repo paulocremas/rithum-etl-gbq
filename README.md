@@ -86,8 +86,8 @@ This module refreshes the access token using the "REFRESH_TOKEN" globally, allow
 ---
 <a id="extract"></a>
 ### [3. Extraction Modules](https://github.com/paulocremas/rithum-etl-gbq/tree/main/modules/extraction)
-#### [extractDataFromApi.py](https://github.com/paulocremas/rithum-etl-gbq/blob/main/modules/extract/extractDataFromApi.py)
-#### [createOrders.py](https://github.com/paulocremas/rithum-etl-gbq/blob/main/modules/extract/createOrders.py)
+#### [extractDataFromApi.py](https://github.com/paulocremas/rithum-etl-gbq/blob/main/modules/extraction/extractDataFromApi.py)
+#### [createOrders.py](https://github.com/paulocremas/rithum-etl-gbq/blob/main/modules/extraction/createOrders.py)
 
 ---
 <a id="transform"></a>
