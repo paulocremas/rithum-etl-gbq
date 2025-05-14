@@ -86,26 +86,26 @@ This module refreshes the access token using the "REFRESH_TOKEN" globally, allow
 ---
 <a id="extract"></a>
 ### [3. Extraction Modules](https://github.com/paulocremas/rithum-etl-gbq/tree/main/modules/extraction)
-#### [extractDataFromApi.py](https://github.com/paulocremas/rithum-etl-gbq/blob/main/modules/authorization/extractDataFromApi.py)
-#### [createOrders.py](https://github.com/paulocremas/rithum-etl-gbq/blob/main/modules/authorization/createOrders.py)
+#### [extractDataFromApi.py](https://github.com/paulocremas/rithum-etl-gbq/blob/main/modules/extract/extractDataFromApi.py)
+#### [createOrders.py](https://github.com/paulocremas/rithum-etl-gbq/blob/main/modules/extract/createOrders.py)
 
 ---
 <a id="transform"></a>
 ### [4. Transform Modules](https://github.com/paulocremas/rithum-etl-gbq/tree/main/modules/transform)
-#### [dateHandler.py](https://github.com/paulocremas/rithum-etl-gbq/blob/main/modules/authorization/dateHandler.py)
-#### [nameDistributionCenters.py](https://github.com/paulocremas/rithum-etl-gbq/blob/main/modules/authorization/nameDistributionCenters.py)
+#### [dateHandler.py](https://github.com/paulocremas/rithum-etl-gbq/blob/main/modules/transform/dateHandler.py)
+#### [nameDistributionCenters.py](https://github.com/paulocremas/rithum-etl-gbq/blob/main/modules/transform/nameDistributionCenters.py)
 ---
 <a id="load"></a>
 ### [5. Load Module](https://github.com/paulocremas/rithum-etl-gbq/tree/main/modules/load)
 This module is responsible for loading the extracted & transformed data into BigQuery
-#### [loadData.py](https://github.com/paulocremas/rithum-etl-gbq/blob/main/modules/authorization/loadData.py)
+#### [loadData.py](https://github.com/paulocremas/rithum-etl-gbq/blob/main/modules/load/loadData.py)
 It inserts the global pandas dataframe setted in configuration into BigQuery
 
 ---
 <a id="email"></a>
 ### [6. E-mail Module](https://github.com/paulocremas/rithum-etl-gbq/tree/main/modules/email)
 This module is used for errors notifications
-#### [emailSender.py](https://github.com/paulocremas/rithum-etl-gbq/blob/main/modules/authorization/emailSender.py)
+#### [emailSender.py](https://github.com/paulocremas/rithum-etl-gbq/blob/main/modules/email/emailSender.py)
 This script sends a e-mail using g-mail based on the function param "message"
 
 ---
