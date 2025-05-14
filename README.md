@@ -72,7 +72,7 @@ This module contains 8 classes and 1 function:
 11. DataToInsert: It's list of item's as dicts to be inserted as dataframe (it is instantiated immediately upon import)
 ---
 
-<a id="config"></a>
+<a id="auth"></a>
 ### [Authorization Modules](https://github.com/paulocremas/rithum-etl-gbq/tree/main/modules/authorization)
 #### [refreshAccessToken.py](https://github.com/paulocremas/rithum-etl-gbq/blob/main/modules/authorization/firstAuth.py)
 This module grants access to your Developer Console Application (must have a single waypoint configured on authorizationConfig 3rd class and in Dev Console App)
