@@ -2,7 +2,8 @@
 
 This ETL process was developed as commissioned by ChannelFront LLC. It extracts order data (items and distribution details) from the Rithum API for Looker visualization.
 
-## Summary
+---
+### Summary
 
 1. [Configuration](#config)
 2. [Authorization](#auth)
@@ -12,7 +13,7 @@ This ETL process was developed as commissioned by ChannelFront LLC. It extracts 
 6. [Load](#load)
 7. [E-mail](#load)
 
-
+---
 <a id="config"></a>
 ### [Configuration Modules](https://github.com/paulocremas/rithum-etl-gbq/tree/main/modules/configuration)
 #### [authorizationConfig.py](https://github.com/paulocremas/rithum-etl-gbq/blob/main/modules/configuration/authorizationConfig.py)
@@ -26,10 +27,14 @@ This module contains 3 classes:
 2. The AccessToken class is a simple container for storing API access token details. It is instantiated immediately as ACCESS_TOKEN
    * ACCESS_TOKEN: The temporary access token used to authenticate API requests
    * EXPIRES_IN: The remaining lifetime (in seconds) of the current ACCESS_TOKEN
+  
+3. This class configures the OAuth2
+   * ENDPOINT: The URL for the ChannelAdvisor OAuth2 endpoint
+   * REDIRECT_URI: Used to set the waypoint for authorization
 
 
 #### [ordersConfig.py](https://github.com/paulocremas/rithum-etl-gbq/blob/main/modules/configuration/ordersConfig.py)
-This module contains 9 classes and 1 function:
+This module contains 8 classes and 1 function:
 
 1. DistributionCenters - Manages distribution center names, accessible by their ID (it is instantiated immediately upon import)
     *  ENDPOINT: The URL for the ChannelAdvisor distribution centers API endpoint
@@ -65,3 +70,15 @@ This module contains 9 classes and 1 function:
 10. Item: This class serves as a blueprint for creating items destined for BigQuery. Its variables directly correspond to the fields in the BigQuery database table.
 
 11. DataToInsert: It's list of item's as dicts to be inserted as dataframe (it is instantiated immediately upon import)
+---
+
+<a id="config"></a>
+### [Authorization Modules](https://github.com/paulocremas/rithum-etl-gbq/tree/main/modules/authorization)
+#### [refreshAccessToken.py](https://github.com/paulocremas/rithum-etl-gbq/blob/main/modules/authorization/firstAuth.py)
+This module grants access to your Developer Console Application (must have a single waypoint configured on authorizationConfig 3rd class and in Dev Console App)
+  * get_authorization_url(): creates a custom url for authorization
+  * open_browser_for_authorization(authorization_url): Opens the user's browser to the authorization URL
+It's used only on the first login.
+
+#### [refreshAccessToken.py](https://github.com/paulocremas/rithum-etl-gbq/blob/main/modules/authorization/refreshAccessToken.py)
+This module refreshes the access token using the "REFRESH_TOKEN" globally, allowing the script to make requests on the API
