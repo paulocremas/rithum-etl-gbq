@@ -1,5 +1,4 @@
 from pandas import concat, DataFrame
-import sys
 
 """Configuration"""
 from modules.configuration.ordersConfig import (
