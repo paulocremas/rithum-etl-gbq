@@ -91,6 +91,9 @@ This modules are used to access the API e retrieve data from there, the extractD
   * extractDataFromApi(configObject): receives an object, check for its necessities and calls requestApi(), if it's answer has more than 100 items the function run resquestApi() as many times its need for the pagination.
   * requestApi(endpoint=None, filter_params=None): makes a request to the API, if there's no access token or it's expired, it will run [refreshAccessToken.py](#refresh)
 #### [createOrders.py](https://github.com/paulocremas/rithum-etl-gbq/blob/main/modules/extraction/createOrders.py)
+  * extractData(): extract a list with all order's IDs and Create Dates in a defined date range and also runs the following functions
+  * getDistributionCenters(): create the distribution centers dict
+  * createItemsInOrder(): transform and appends data as new itens to DATA_TO_INSERT
 
 ---
 <a id="transform"></a>
