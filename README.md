@@ -79,14 +79,17 @@ This module grants access to your Developer Console Application (must have a sin
   * get_authorization_url(): creates a custom url for authorization
   * open_browser_for_authorization(authorization_url): Opens the user's browser to the authorization URL
 It's used only on the first login.
-
+<a id="refresh"></a>
 #### [refreshAccessToken.py](https://github.com/paulocremas/rithum-etl-gbq/blob/main/modules/authorization/refreshAccessToken.py)
 This module refreshes the access token using the "REFRESH_TOKEN" globally, allowing the script to make requests on the API
 
 ---
 <a id="extract"></a>
 ### [3. Extraction Modules](https://github.com/paulocremas/rithum-etl-gbq/tree/main/modules/extraction)
+This modules are used to access the API e retrieve data from there, the extractDataFromApi one being for 'general prupose'
 #### [extractDataFromApi.py](https://github.com/paulocremas/rithum-etl-gbq/blob/main/modules/extraction/extractDataFromApi.py)
+  * extractDataFromApi(configObject): receives an object, check for its necessities and calls requestApi(), if it's answer has more than 100 items the function run resquestApi() as many times its need for the pagination.
+  * requestApi(endpoint=None, filter_params=None): makes a request to the API, if there's no access token or it's expired, it will run [refreshAccessToken.py](#refresh)
 #### [createOrders.py](https://github.com/paulocremas/rithum-etl-gbq/blob/main/modules/extraction/createOrders.py)
 
 ---
