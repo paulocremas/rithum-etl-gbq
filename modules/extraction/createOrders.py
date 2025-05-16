@@ -28,12 +28,11 @@ createItemsInOrder(): Requests Items and Fullfilments (distribution center ID) o
 
 def extractData():
     orders_data = extractDataFromApi(ORDERS_API_CALL)
-    getDistributionCenters()
-
     if not orders_data:
         print("No orders to extract.")
         return
 
+    getDistributionCenters()
     total = len(orders_data)
     current = total
     CURRENT_ORDER.CREATING_ORDER = True
