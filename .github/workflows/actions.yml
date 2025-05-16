@@ -31,7 +31,7 @@ jobs:
           GCODE:                          ${{ secrets.GCODE }}
           GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
           RECIPIENTS:                     ${{ secrets.RECIPIENTS }}
-          REFRESH_TOKEN:                  ${{ secrets.APPLICATION_ID }}
+          REFRESH_TOKEN:                  ${{ secrets.REFRESH_TOKEN }}
           TABLE_ID:                       ${{ secrets.TABLE_ID }}
         run: python app.py
           
