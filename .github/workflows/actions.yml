@@ -17,14 +17,12 @@ env:
 
 jobs:
   run-python:
-      steps:
+    runs-on: ubuntu-latest
+    steps:
       - name: Google Cloud Credencial
         run: |
           echo "${{ secrets.GOOGLE_CREDENTIALS_BASE64 }}" | base64 --decode > channelfrontproject.json
-          
-          # Define o caminho do arquivo como variável de ambiente
           echo "GOOGLE_APPLICATION_CREDENTIALS=service-account.json" >> $GITHUB_ENV
-        runs-on: ubuntu-latest
 
       - name: checkout repo content
         uses: actions/checkout@v2 # checkout the repository content to github runner
