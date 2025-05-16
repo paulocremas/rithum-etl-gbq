@@ -1,13 +1,20 @@
-from modules.extraction.createOrders import extractData
+from modules.extraction.createOrders import extractData, DATA_TO_INSERT
 from modules.load.loadData import load_data_to_bq
 from modules.email.emailSender import sendEmail
-import sys, traceback
+import sys, traceback, logging
+
+logging.basicConfig(
+    filename="data_insertion.log",  # Nome do arquivo de log
+    level=logging.INFO,  # Nível mínimo de log a ser capturado (INFO e superiores)
+    format="%(asctime)s - %(levelname)s - %(message)s",
+)
 
 
 def main():
     try:
         extractData()
         load_data_to_bq()
+        logging.info(f"{len(DATA_TO_INSERT.DATA)} items inserted")
     except:
         sendErrorEmail()
 
