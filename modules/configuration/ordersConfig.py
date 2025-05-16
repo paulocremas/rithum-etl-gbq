@@ -1,4 +1,4 @@
-import os, json
+import os
 from pandas import DataFrame
 from google.cloud import bigquery
 from modules.transform.dateHandler import convertDateTimeCstToUtc, nowUtc
@@ -17,8 +17,9 @@ DISTRIBUTION_CENTERS = DistributionCenters()
 class BigQueryConfig:
     def __init__(self):
         self.TABLE_ID = os.environ.get("TABLE_ID")
-        credentials = os.environ.get("GOOGLE_APPLICATION_CREDENTIALS")
-        self.GOOGLE_APPLICATION_CREDENTIALS = json.loads(credentials)
+        self.GOOGLE_APPLICATION_CREDENTIALS = os.environ.get(
+            "GOOGLE_APPLICATION_CREDENTIALS"
+        )
         self.CLIENT = bigquery.Client()
 
 
