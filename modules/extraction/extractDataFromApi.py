@@ -15,8 +15,9 @@ def requestApi(endpoint=None, filter_params=None):
     # Use provided filter parameters or default to an empty dictionary
     params = filter_params if filter_params else {}
     # Make a GET request to the specified endpoint
+
     response = requests.get(endpoint, headers=ACCESS_TOKEN.ACCESS_TOKEN, params=params)
-    if response.status_code == 401:
+    if response.status_code != 200:
         refreshAccessToken()
         response = requests.get(
             endpoint, headers=ACCESS_TOKEN.ACCESS_TOKEN, params=params
