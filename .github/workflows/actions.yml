@@ -1,12 +1,23 @@
 name: run ChannelFront ETL
 
 on:
-  schedule:
-    # - cron: '0 0,12 * * *' # At 00:00 on Monday
-    - cron: '* * * * *' # test
+  workflow_dispatch: # allows to run the workflow manually
+  # schedule:
+  #   # - cron: '0 0,12 * * *' # At 00:00 on Monday
+  #   - cron: '* * * * *' # test
+
+env:
+  APPLICATION_ID:                 ${{ secrets.APPLICATION_ID }}
+  CLIENT_SECRET:                  ${{ secrets.CLIENT_SECRET }}
+  EMAIL:                          ${{ secrets.EMAIL }}
+  GCODE:                          ${{ secrets.GCODE }}
+  GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
+  RECIPIENTS:                     ${{ secrets.RECIPIENTS }}
+  REFRESH_TOKEN:                  ${{ secrets.REFRESH_TOKEN }}
+  TABLE_ID:                       ${{ secrets.TABLE_ID }}
 
 jobs:
-  build:
+  run-python:
     runs-on: ubuntu-latest
     steps:
 
@@ -24,15 +35,6 @@ jobs:
           pip install -r requirements.txt
           
       - name: execute py script # run main.py
-        env:
-          APPLICATION_ID:                 ${{ secrets.APPLICATION_ID }}
-          CLIENT_SECRET:                  ${{ secrets.CLIENT_SECRET }}
-          EMAIL:                          ${{ secrets.EMAIL }}
-          GCODE:                          ${{ secrets.GCODE }}
-          GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
-          RECIPIENTS:                     ${{ secrets.RECIPIENTS }}
-          REFRESH_TOKEN:                  ${{ secrets.REFRESH_TOKEN }}
-          TABLE_ID:                       ${{ secrets.TABLE_ID }}
         run: python app.py
           
       - name: commit files
