@@ -15,6 +15,7 @@ env:
   REFRESH_TOKEN:                  ${{ secrets.REFRESH_TOKEN }}
   TABLE_ID:                       ${{ secrets.TABLE_ID }}
   GOOGLE_CREDENTIALS_BASE64:      ${{ secrets.GOOGLE_CREDENTIALS_BASE64 }}
+  GITHUB_TOKEN:                   ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
   run-python:
@@ -39,8 +40,8 @@ jobs:
         run: |
           echo "${{ secrets.GOOGLE_CREDENTIALS_BASE64 }}" | base64 --decode > ${{ github.workspace }}/channelfrontproject.json
         
-      - name: Set GOOGLE_APPLICATION_CREDENTIALS
-        run: echo "GOOGLE_APPLICATION_CREDENTIALS=${{ github.workspace }}/channelfrontproject.json" >> $GITHUB_ENV
+      - name: Set GOOGLE_CREDENTIALS
+        run: echo "GOOGLE_CREDENTIALS=${{ github.workspace }}/channelfrontproject.json" >> $GITHUB_ENV
           
       - name: execute py script # run main.py
         run: python app.py
