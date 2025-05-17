@@ -19,12 +19,6 @@ jobs:
   run-python:
     runs-on: ubuntu-latest
     steps:
-      - name: Google Cloud Credencial
-        run: |
-          echo "${{ secrets.GOOGLE_CREDENTIALS_BASE64 }}" | base64 --decode > channelfrontproject.json
-          echo "GOOGLE_APPLICATION_CREDENTIALS=$(pwd)/channelfrontproject.json" >> $GITHUB_ENV
-        shell: bash
-
       - name: checkout repo content
         uses: actions/checkout@v2 # checkout the repository content to github runner
 
