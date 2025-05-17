@@ -17,7 +17,9 @@ DISTRIBUTION_CENTERS = DistributionCenters()
 class BigQueryConfig:
     def __init__(self):
         self.TABLE_ID = os.environ.get("TABLE_ID")
-        self.GOOGLE_APPLICATION_CREDENTIALS = os.environ.get("GOOGLE_CREDENTIALS")
+        self.GOOGLE_APPLICATION_CREDENTIALS = os.environ.get(
+            "GOOGLE_APPLICATION_CREDENTIALS"
+        )
         self.CLIENT = bigquery.Client()
 
 
