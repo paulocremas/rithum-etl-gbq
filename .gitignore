@@ -1,2 +1,7 @@
 channelfrontproject.json
 ./.github/workflows/channelfrontproject.json
+
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
