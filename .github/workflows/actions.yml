@@ -14,6 +14,7 @@ env:
   RECIPIENTS:                     ${{ secrets.RECIPIENTS }}
   REFRESH_TOKEN:                  ${{ secrets.REFRESH_TOKEN }}
   TABLE_ID:                       ${{ secrets.TABLE_ID }}
+  GOOGLE_CREDENTIALS_BASE64:      ${{ secrets.GOOGLE_CREDENTIALS_BASE64 }}
 
 jobs:
   run-python:
