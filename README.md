@@ -1,6 +1,7 @@
 ## Rithum API to Google BigQuery ETL
 
 This ETL process was developed as commissioned by ChannelFront LLC. It extracts order data (items and distribution details) from the Rithum API for Looker visualization.
+It runs 2x a day on github actions.
 
 ---
 ### Summary
