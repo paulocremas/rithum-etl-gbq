@@ -38,6 +38,7 @@ def SetOrdersApiParams():
             SELECT create_date
             FROM `{BIGQUERY_CONFIG.TABLE_ID}`
             ORDER BY create_date DESC
+            WHERE source = 'Rithum'
             LIMIT 1
         """
 
