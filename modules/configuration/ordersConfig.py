@@ -132,6 +132,7 @@ class Item:
         self.shipping_tax_price = SHIPPING_TAX_PRICE
         self.distribution_center = DISTRIBUTION_CENTER
         self.order_id = ORDER_ID
+        self.source = "Rithum"
 
 
 class DataToInsert:
