@@ -35,6 +35,7 @@ def extractData():
     getDistributionCenters()
     total = len(orders_data)
     current = total
+    # CURRENT_ORDER.CREATING_ORDER é usado para controlar a formatação do endpoint do objeto no extractDataFromApi()
     CURRENT_ORDER.CREATING_ORDER = True
     for order in orders_data:
         print(f"Orders left to process: {total}/{current}")

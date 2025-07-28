@@ -48,7 +48,7 @@ def SetOrdersApiParams():
         for row in rows:
             latest_create_date = row.create_date
 
-        param_filter = f"CreatedDateUtc ge {convertDateTimeCstToUtc(latest_create_date)} and CreatedDateUtc le {nowUtc()}"
+        param_filter = f"CreatedDateUtc gt {convertDateTimeCstToUtc(latest_create_date)} and CreatedDateUtc le {nowUtc()}"
         params = {"$filter": param_filter, "$select": "ID,CreatedDateUtc"}
     except:
         params = {"$select": "ID,CreatedDateUtc"}
