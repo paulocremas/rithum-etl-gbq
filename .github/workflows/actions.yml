@@ -2,7 +2,7 @@ name: run ChannelFront ETL
 
 on:
   schedule:
-    # - cron: '0 0,12 * * *' # 00:00 e 12:00 UTC → 21:00 e 09:00 BRT
+     - cron: '0 0,12 * * *' # 00:00 e 12:00 UTC → 21:00 e 09:00 BRT
 
 env:
   APPLICATION_ID:                 ${{ secrets.APPLICATION_ID }}
